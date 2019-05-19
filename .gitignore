@@ -1,0 +1,6 @@
+html/*
+latex/*
+*.out
+*.o
+*.bak
+
