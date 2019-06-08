@@ -1,3 +1,22 @@
+// This software describes the generic bound motion of a test mass around a Kerr black hole. 
+// Copyright (C) 2019  Thomas Osburn
+//
+// Please consider citing the following paper if you make use of this code:
+// https://arxiv.org/abs/1905.13237
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <complex.h>
@@ -10,14 +29,14 @@
 #include "korb.h"
 
 /*!
-* Find z = cos^2(theta) from chi_theta
+* Find z = cos^2(theta) from chi_theta (Eq. 2.26)
 */
 double korb_zfromchi(double chi, korb_params orbpar){
 double coschi = cos(chi);
 return orbpar.zm*coschi*coschi;}
 
 /*!
-* Find theta from Mino time
+* Find theta from Mino time 
 */
 double korb_thfromla(double la, korb_params orbpar){
 if(orbpar.inclined==0)
@@ -28,19 +47,19 @@ if(orbpar.x<0)
 return th;}
 
 /*!
-* Find r from chi_r
+* Find r from chi_r (Eq. 2.26)
 */
 double korb_rfrompsi(double psi, korb_params orbpar){
 return orbpar.p/(1+orbpar.e*cos(psi));}
 
 /*!
-* Find the derivative of Mino time with respect to chi_theta 
+* Find the derivative of Mino time with respect to chi_theta (Eq. 2.29)
 */
 double korb_dladchi(double chi, korb_params orbpar){
 return 1/sqrt(fabs(orbpar.B*(orbpar.zp-korb_zfromchi(chi,orbpar))));}
 
 /*!
-* Find the derivative of Mino time with respect to chi_r
+* Find the derivative of Mino time with respect to chi_r (Eq. 2.28)
 */
 double korb_dladpsi(double psi, korb_params orbpar){
 return (1-orbpar.e*orbpar.e)/sqrt(fabs((1-orbpar.E*orbpar.E)*(orbpar.p-orbpar.p3-orbpar.e*(orbpar.p+orbpar.p3*cos(psi)))*(orbpar.p-orbpar.p4+orbpar.e*(orbpar.p-orbpar.p4*cos(psi)))));}
@@ -58,7 +77,7 @@ double korb_dpsidla(double psi, korb_params orbpar){
 return sqrt(fabs((1-orbpar.E*orbpar.E)*(orbpar.p-orbpar.p3-orbpar.e*(orbpar.p+orbpar.p3*cos(psi)))*(orbpar.p-orbpar.p4+orbpar.e*(orbpar.p-orbpar.p4*cos(psi)))))/(1-orbpar.e*orbpar.e);}
 
 /*! 
-* Find Mino time from chi_r using a Fourier series
+* Find Mino time from chi_r using a Fourier series (Eq. 3.5)
 */
 double korb_lafrompsi(double psi, korb_params orbpar){
 double la = orbpar.dladpsiamps[0]*psi;
@@ -84,7 +103,7 @@ double korb_D(double r, korb_params orbpar){
 return r*r-2*r+orbpar.a*orbpar.a;}
 
 /*! 
-* Find T_r, which is the radial part of the derivative of t with respect to Mino time
+* Find T_r, which is the radial part of the derivative of t with respect to Mino time (Eq. 2.19)
 */
 double korb_Tr(double psi, korb_params orbpar){
 double r = korb_rfrompsi(psi,orbpar);
@@ -98,7 +117,7 @@ double la = korb_lafrompsi(psi,orbpar);
 return orbpar.Yr*korb_dladpsi(psi,orbpar)*korb_Tr(psi,orbpar)*(cos(n*orbpar.Yr*la)+I*sin(n*orbpar.Yr*la));}
 
 /*! 
-* Find T_theta, which is the polar part of the derivative of t with respect to Mino time
+* Find T_theta, which is the polar part of the derivative of t with respect to Mino time (Eq. 2.20)
 */
 double korb_Tth(double chi, korb_params orbpar){
 return orbpar.E*orbpar.a*orbpar.a*(korb_zfromchi(chi,orbpar)-1);}
@@ -111,7 +130,7 @@ double la = korb_lafromchi(chi,orbpar);
 return orbpar.Yth*korb_dladchi(chi,orbpar)*korb_Tth(chi,orbpar)*(cos(n*orbpar.Yth*la)+I*sin(n*orbpar.Yth*la));}
 
 /*! 
-* Find Psi_r, which is the radial part of the derivative of phi with respect to Mino time
+* Find Psi_r, which is the radial part of the derivative of phi with respect to Mino time (Eq. 2.17)
 */
 double korb_Pr(double psi, korb_params orbpar){
 double r = korb_rfrompsi(psi,orbpar);
@@ -125,7 +144,7 @@ double la = korb_lafrompsi(psi,orbpar);
 return orbpar.Yr*korb_dladpsi(psi,orbpar)*korb_Pr(psi,orbpar)*(cos(n*orbpar.Yr*la)+I*sin(n*orbpar.Yr*la));}
 
 /*! 
-* Find Psi_theta, which is the polar part of the derivative of phi with respect to Mino time
+* Find Psi_theta, which is the polar part of the derivative of phi with respect to Mino time (Eq. 2.18)
 */
 double korb_Pth(double chi, korb_params orbpar){
 return orbpar.Lz/(1-korb_zfromchi(chi,orbpar));}
@@ -152,7 +171,7 @@ double la = korb_lafrompsi(psi,orbpar);
 return orbpar.Yr*(cos(n*orbpar.Yr*la)+I*sin(n*orbpar.Yr*la));}
 
 /*! 
-* This function returns the integral of T_r with respect to Mino time given the Fourier coefficients of T_r ( called orbpar.Tramps[] )
+* This function returns the integral of T_r with respect to Mino time given the Fourier coefficients of T_r (Eq. 3.19)
 */
 double korb_dtrfromla(double la, korb_params orbpar){
 double t = 0.0;
@@ -162,7 +181,7 @@ for(j=1;j<orbpar.Trnum;j++)
 return t;}
 
 /*! 
-* This function returns the integral of T_theta with respect to Mino time given the Fourier coefficients of T_theta ( called orbpar.Tthamps[] )
+* This function returns the integral of T_theta with respect to Mino time given the Fourier coefficients of T_theta (Eq. 3.20)
 */
 double korb_dtthfromla(double la, korb_params orbpar){
 double t = 0.0;
@@ -196,7 +215,7 @@ for(j=1;j<orbpar.dchidlanum;j++)
 return chi;}
 
 /*! 
-* Find t from Mino time
+* Find t from Mino time (Eq. 2.36)
 */
 double korb_tfromla(double la, korb_params orbpar){
 double t = orbpar.Ga*la;
@@ -207,7 +226,7 @@ if(orbpar.eccentric!=0)
 return t;}
 
 /*! 
-* This function returns the integral of Psi_r with respect to Mino time given the Fourier coefficients of Psi_r ( called orbpar.Pramps[] )
+* This function returns the integral of Psi_r with respect to Mino time given the Fourier coefficients of Psi_r  (Eq. 3.21)
 */
 double korb_dphirfromla(double la, korb_params orbpar){
 double phi = 0.0;
@@ -217,7 +236,7 @@ for(j=1;j<orbpar.Prnum;j++)
 return phi;}
 
 /*! 
-* This function returns the integral of Psi_theta with respect to Mino time given the Fourier coefficients of Psi_theta ( called orbpar.Pthamps[] )
+* This function returns the integral of Psi_theta with respect to Mino time given the Fourier coefficients of Psi_theta  (Eq. 3.22)
 */
 double korb_dphithfromla(double la, korb_params orbpar){
 double phi = 0.0;
@@ -227,7 +246,7 @@ for(j=1;j<orbpar.Pthnum;j++)
 return phi;}
 
 /*! 
-* Find phi from Mino time
+* Find phi from Mino time (Eq. 2.37)
 */
 double korb_phifromla(double la, korb_params orbpar){
 double phi = orbpar.Yphi*la;
@@ -344,14 +363,14 @@ for(i=0;i<*num;i++)
 return 1;}
 
 /*!
-* Gives the derivative of the tortoise coordinate with respect to r
+* Gives the derivative of the tortoise coordinate with respect to r (Eq. 2.50)
 */
 double korb_drsdr(double rm, double a){
 double rp = 1+sqrt(1-a*a);
 return ((rm+rp)*(rm+rp)+a*a)/(rm*(rm+2*(rp-1)));}
 
 /*!
-* Gives the tortoise coordinate from r-r_+
+* Gives the tortoise coordinate from r-r_+ (Eq. 2.49)
 */
 double korb_rsfromrsubtrplus(double rsubtrplus, double a){
 double rp = 1+sqrt(1-a*a);

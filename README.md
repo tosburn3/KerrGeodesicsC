@@ -2,7 +2,10 @@
 
 This software describes the generic bound motion of a test mass around a Kerr black hole. There are also functions for calculating r from the tortoise coordinate via root finding.
 
-(add relevant citations here)
+The original implementation of this code was in support of the following work:
+https://arxiv.org/abs/1905.13237
+
+Please consider citing the above paper if you make use of this code. All descriptions involving numbered equations in this code's documentation are in reference to the above paper.
 
 ### Dependencies
 
@@ -25,7 +28,7 @@ It is also possible to use this code as a library of functions that can be compi
 
 Geodesics can be computed with the command:
 
-./korb.out eccentric inclined a p e x
+./korb.out eccentric inclined a p e x lambdaNum lambdaMax
 
 Consider the following example:
 
@@ -67,7 +70,7 @@ chi_theta = 0.000000000000000
 
 Include license information here
 
-
+The code is licensed under the GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 
 

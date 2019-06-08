@@ -1,14 +1,29 @@
 /*! \mainpage  korb.h
- *  \brief     This software describes the generic bound motion of a test mass around a Kerr black hole. There are also functions for calculating r from the tortoise coordinate via root finding. The main function takes inputs: eccentric (boolean), inclined (boolean), a (double), p (double), e (double), x (double), lambdaSteps (integer), lambdaMax (double), and from those arguments calculates and prints the constants of motion, orbital frequencies, and position at equally spaced Mino times.
+ *  \brief     This software describes the generic bound motion of a test mass around a Kerr black hole. There are also functions for calculating r from the tortoise coordinate via root finding. The main function takes inputs: eccentric (boolean), inclined (boolean), a (double), p (double), e (double), x (double), lambdaSteps (integer), lambdaMax (double), and from those arguments calculates and prints the constants of motion, orbital frequencies, and position at equally spaced Mino times. The original implementation of this code was in support of the following work:
+https://arxiv.org/abs/1905.13237
+Please consider citing the above paper if you make use of this code. All descriptions involving numbered equations in this code's documentation are in reference to the above paper.
  *  \author    Thomas Osburn
  *  \version   0.1
  *  \date      2019
- *  \copyright 2019 Thomas Osburn
+ *  \copyright Copyright (C) Thomas Osburn 2019
  */
 
 /*
-Copyright 2019 Thomas Osburn
+Copyright (C) 2019 Thomas Osburn
 */
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 /*!
 * This data structure encodes all information needed to reconstruct the position of a test mass orbiting a Kerr black hole at any time via Fourier series. The pointers within will become lists of Fourier coefficients once they are allocated by the function "korb_getparams"
@@ -73,27 +88,27 @@ extern int korb_getparams(int eccentric, int inclined, double a, double p, doubl
 extern int korb_freepar(korb_params orbpar);
 
 /*!
-* Find z = cos^2(theta) from chi_theta
+* Find z = cos^2(theta) from chi_theta (Eq. 2.26)
 */
 extern double korb_zfromchi(double chi, korb_params orbpar);
 
 /*!
-* Find theta from Mino time
+* Find theta from Mino time 
 */
 extern double korb_thfromla(double la, korb_params orbpar);
 
 /*!
-* Find r from chi_r
+* Find r from chi_r (Eq. 2.26)
 */
 extern double korb_rfrompsi(double psi, korb_params orbpar);
 
 /*!
-* Find the derivative of Mino time with respect to chi_theta
+* Find the derivative of Mino time with respect to chi_theta (Eq. 2.29)
 */
 extern double korb_dladchi(double chi, korb_params orbpar);
 
 /*!
-* Find the derivative of Mino time with respect to chi_r
+* Find the derivative of Mino time with respect to chi_r (Eq. 2.28)
 */
 extern double korb_dladpsi(double psi, korb_params orbpar);
 
@@ -108,7 +123,7 @@ extern double korb_dchidla(double chi, korb_params orbpar);
 extern double korb_dpsidla(double psi, korb_params orbpar);
 
 /*!
-* Find the derivative of chi_r with respect to Mino time from chi_r
+* Find Mino time from chi_r using a Fourier series (Eq. 3.5)
 */
 extern double korb_lafrompsi(double psi, korb_params orbpar);
 
@@ -123,7 +138,7 @@ extern double korb_lafromchi(double chi, korb_params orbpar);
 extern double korb_D(double r, korb_params orbpar);
 
 /*! 
-* Find T_r, which is the radial part of the derivative of t with respect to Mino time
+* Find T_r, which is the radial part of the derivative of t with respect to Mino time (Eq. 2.19)
 */
 extern double korb_Tr(double psi, korb_params orbpar);
 
@@ -133,7 +148,7 @@ extern double korb_Tr(double psi, korb_params orbpar);
 extern double complex korb_Trint(double psi, int n, korb_params orbpar);
 
 /*! 
-* Find T_th, which is the polar part of the derivative of t with respect to Mino time
+* Find T_th, which is the polar part of the derivative of t with respect to Mino time  (Eq. 2.20)
 */
 extern double korb_Tth(double chi, korb_params orbpar);
 
@@ -143,7 +158,7 @@ extern double korb_Tth(double chi, korb_params orbpar);
 extern double complex korb_Tthint(double chi, int n, korb_params orbpar);
 
 /*! 
-* Find Psi_r, which is the radial part of the derivative of phi with respect to Mino time
+* Find Psi_r, which is the radial part of the derivative of phi with respect to Mino time (Eq. 2.17)
 */
 extern double korb_Pr(double psi, korb_params orbpar);
 
@@ -153,7 +168,7 @@ extern double korb_Pr(double psi, korb_params orbpar);
 extern double complex korb_Print(double psi, int n, korb_params orbpar);
 
 /*! 
-* Find Psi_theta, which is the polar part of the derivative of phi with respect to Mino time
+* Find Psi_theta, which is the polar part of the derivative of phi with respect to Mino time (Eq. 2.18)
 */
 extern double korb_Pth(double chi, korb_params orbpar);
 
@@ -173,17 +188,17 @@ extern double complex korb_dchidlaint(double chi, int n, korb_params orbpar);
 extern double complex korb_dpsidlaint(double psi, int n, korb_params orbpar);
 
 /*! 
-* This function returns the integral of T_r with respect to Mino time given the Fourier coefficients of T_r ( called orbpar.Tramps[] )
+* This function returns the integral of T_r with respect to Mino time given the Fourier coefficients of T_r (Eq. 3.19)
 */
 extern double korb_dtrfromla(double la, korb_params orbpar);
 
 /*! 
-* This function returns the integral of T_theta with respect to Mino time given the Fourier coefficients of T_theta ( called orbpar.Tthamps[] )
+* This function returns the integral of T_theta with respect to Mino time given the Fourier coefficients of T_theta (Eq. 3.20)
 */
 extern double korb_dtthfromla(double la, korb_params orbpar);
 
 /*! 
-* Find chi_r from Mino time
+* Find chi_r from Mino time 
 */
 extern double korb_psifromla(double la, korb_params orbpar);
 
@@ -193,22 +208,22 @@ extern double korb_psifromla(double la, korb_params orbpar);
 extern double korb_chifromla(double la, korb_params orbpar);
 
 /*! 
-* Find t from Mino time
+* Find t from Mino time (Eq. 2.36)
 */
 extern double korb_tfromla(double la, korb_params orbpar);
 
 /*! 
-* This function returns the integral of Psi_r with respect to Mino time given the Fourier coefficients of Psi_r ( called orbpar.Pramps[] )
+* This function returns the integral of Psi_r with respect to Mino time given the Fourier coefficients of Psi_r (Eq. 3.21)
 */
 extern double korb_dphirfromla(double la, korb_params orbpar);
 
 /*! 
-* This function returns the integral of Psi_theta with respect to Mino time given the Fourier coefficients of Psi_theta ( called orbpar.Pthamps[] )
+* This function returns the integral of Psi_theta with respect to Mino time given the Fourier coefficients of Psi_theta  (Eq. 3.22)
 */
 extern double korb_dphithfromla(double la, korb_params orbpar);
 
 /*! 
-* Find phi from Mino time
+* Find phi from Mino time (Eq. 2.37)
 */
 extern double korb_phifromla(double la, korb_params orbpar);
 
@@ -233,12 +248,12 @@ extern int korb_dct(int num, double period, korb_params orbpar, double (*func)(d
 extern int korb_getamps(int *num, double period, korb_params orbpar, double (*func)(double,korb_params), double **amps);
 
 /*!
-* Gives the derivative of the tortoise coordinate with respect to r
+* Gives the derivative of the tortoise coordinate with respect to r (Eq. 2.50)
 */
 extern double korb_drsdr(double rm, double a);
 
 /*!
-* Gives the tortoise coordinate from r-r_+
+* Gives the tortoise coordinate from r-r_+ (Eq. 2.49)
 */
 extern double korb_rsfromrsubtrplus(double rsubtrplus, double a);
 
