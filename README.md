@@ -36,7 +36,7 @@ Consider the following example:
 
 These parameters describe an eccentric (eccentric = 1) equatorial (inclined = 0) orbit with a/M = 0.99, p = 7.0, e = 0.9, that is retrograde (because x < 0, the specific x value is ignored when inclined = 0). Position values will be printed at 2 Mino times (lambdaNum = 2) up to a maximum Mino time of 3.0 (lambdaMax = 3.0). The output generated from these parameters is:
 
----------------------------------------------------
+______________________________________________
 Because you made the 'inclined' argument zero, this orbit is assumed to be equatorial (regardless of your x input). Prograde or retrograde implied from the sign of your x argument.
 
 E = 0.992938268736859
@@ -64,7 +64,7 @@ theta = 1.570796326794897
 phi = -13.318889072002465
 chi_r = 7.188495513376020
 chi_theta = 0.000000000000000
-----------------------------------------------------
+____________________________________________
 
 ### Licence
 
