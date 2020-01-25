@@ -32,37 +32,37 @@ Geodesics can be computed with the command:
 
 Consider the following example:
 
-./korb.out 1 0 0.99 7.0 0.9 -0.5 2 3.0
+./korb.out 1 0 0.99 7.0 0.9 0.5 2 1.0
 
-These parameters describe an eccentric (eccentric = 1) equatorial (inclined = 0) orbit with a/M = 0.99, p = 7.0, e = 0.9, that is retrograde (because x < 0, the specific x value is ignored when inclined = 0). Position values will be printed at 2 Mino times (lambdaNum = 2) up to a maximum Mino time of 3.0 (lambdaMax = 3.0). The output generated from these parameters is:
+These parameters describe an eccentric (eccentric = 1) equatorial (inclined = 0) orbit with a/M = 0.99, p = 7.0, e = 0.9, that is prograde (because x > 0, the specific x value is ignored when inclined = 0). Position values will be printed at 2 Mino times (lambdaNum = 2) up to a maximum Mino time of 1.0 (lambdaMax = 1.0). The output generated from these parameters is:
 
 ______________________________________________
 Because you made the 'inclined' argument zero, this orbit is assumed to be equatorial (regardless of your x input). Prograde or retrograde implied from the sign of your x argument.
 
-E = 0.992938268736859
-Lz = -4.759173399523667
-Q = 0.000000000000000
-Gamma = 1555.399719551627186
-Omega_phi = -0.002874958047797
+E = 0.986565156231870
+Lz = 3.052859990816571
+Q = 0.000000000000004
+Gamma = 568.585782351074272
+Omega_phi = 0.005924590732463
 Omega_th = 0.000000000000000
-Omega_r = 0.001609001540218
+Omega_r = 0.004150454187797
 
 
-   lambda = 1.500000000000000
-t = 3713.413690956790106
-r = 33.140533105604312
+   lambda = 0.500000000000000
+t = 14.391447729962465
+r = 4.940154465458621
 theta = 1.570796326794897
-phi = -6.769822489389619
-chi_r = 3.971076178213267
+phi = 1.792448368140982
+chi_r = 1.089093839765892
 chi_theta = 0.000000000000000
 
 
-   lambda = 3.000000000000000
-t = 3941.485431036822774
-r = 8.356380677796237
+   lambda = 1.000000000000000
+t = 67.984126677545021
+r = 17.159459542406832
 theta = 1.570796326794897
-phi = -13.318889072002465
-chi_r = 7.188495513376020
+phi = 3.453882116286580
+chi_r = 2.288752031370152
 chi_theta = 0.000000000000000
 ____________________________________________
 
